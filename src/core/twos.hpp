@@ -79,5 +79,33 @@ namespace rv::core {
   */
  Bits encode_i32_from_sign_and_magnitude(Bit sign, const Bits& magnitude);
 
+ // -------------------------------------------------------------
+ // Official project-facing encode/decode API (32-bit two's complement)
+ // -------------------------------------------------------------
+
+ struct EncodeI32Result {
+  Bits        bits;      // 32-bit two's-complement representation (LSB-first)
+  std::string hex;       // Pretty hex string, e.g., "0x0000000D"
+  bool        overflow;  // 1 if value outside [-2^31, 2^31-1]
+ };
+
+ /**
+  * @brief Encode a signed integer into 32-bit two's-complement, with overflow flag.
+  *
+  * The input is treated as a mathematical integer. If it is outside the signed
+  * 32-bit range [-2^31, 2^31-1], overflow is set to true. In all cases, a 32-bit
+  * two's-complement bit pattern is produced.
+  */
+ EncodeI32Result encode_twos_i32(int64_t value);
+
+ /**
+  * @brief Decode a 32-bit two's-complement bit vector into a signed integer.
+  *
+  * Expects exactly 32 bits, LSB-first. Interprets them as a signed two's-complement
+  * integer and returns a host int64_t (to safely hold INT_MIN).
+  */
+ int64_t decode_twos_i32(const Bits& b32);
+
+
 
 } // namespace rv::core

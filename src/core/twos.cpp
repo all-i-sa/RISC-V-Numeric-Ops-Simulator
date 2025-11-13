@@ -1,4 +1,7 @@
 #include "core/twos.hpp"
+#include "core/bitvec.hpp"
+#include <cassert>
+
 
 namespace rv::core {
 
@@ -87,4 +90,34 @@ Bits encode_i32_from_sign_and_magnitude(Bit sign, const Bits& magnitude) {
     }
 }
 
+    EncodeI32Result encode_twos_i32(int64_t value) {
+    EncodeI32Result res{};
+
+    // Signed 32-bit bounds.
+    const int64_t MIN_I32 = -2147483648LL; // -2^31
+    const int64_t MAX_I32 =  2147483647LL; //  2^31 - 1
+
+    // Overflow flag: true if value is outside signed 32-bit range.
+    res.overflow = (value < MIN_I32) || (value > MAX_I32);
+
+    // Narrow to 32 bits (two's-complement wrap-around semantics).
+    // Even if it's out of range, we still produce a 32-bit pattern.
+    int32_t narrowed = static_cast<int32_t>(value);
+
+    // Reuse your existing helper that builds a 32-bit two's-complement bit vector.
+    res.bits = encode_i32_TEMP_host(narrowed);
+
+    // Pretty hex string, e.g., "0xFFFFFFF3"
+    res.hex = bv_to_hex_string(res.bits);
+
+    return res;
+}
+
+    int64_t decode_twos_i32(const Bits& b32) {
+    // We already have a general helper that interprets Bits as signed 32-bit.
+    // It handles sign-extension/truncation internally.
+    return decode_i32_to_host(b32);
+}
+
 } // namespace rv::core
+

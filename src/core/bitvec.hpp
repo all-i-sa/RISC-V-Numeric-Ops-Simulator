@@ -26,7 +26,7 @@ namespace rv::core {
     /* ---- PRETTY PRINTING ----
      * Turn the bit vector into human friendly binary string nibbly
      */
-    std::string bv_to_pretty_bin(const Bits& b, std::size_t group = 4, char sep = '_');
+    std::string bv_to_pretty_bin(const Bits& b, std::size_t group = 0, char sep = '_');
 
     // ---- EXTENSIONS ----
     Bits zero_extend(const Bits& b, std::size_t width); // grow to width by padding MSB side with zeros

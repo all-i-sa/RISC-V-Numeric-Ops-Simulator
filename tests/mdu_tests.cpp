@@ -58,3 +58,50 @@ TEST(MduMul, ExampleFromSpec) {
     EXPECT_EQ(res.trace.size(), 33u);
 }
 
+TEST(MduDiv, SignedExampleFromSpec) {
+    using namespace rv::core;
+
+    auto enc_a = encode_twos_i32(-7);
+    auto enc_b = encode_twos_i32(3);
+
+    auto res = mdu_div(DivOp::Div, enc_a.bits, enc_b.bits);
+
+    // DIV -7 / 3 → q = -2 (0xFFFFFFFE); r = -1 (0xFFFFFFFF)
+    EXPECT_EQ(bv_to_hex_string(res.q), "0xfffffffe");
+    EXPECT_EQ(bv_to_hex_string(res.r), "0xffffffff");
+    EXPECT_FALSE(res.overflow);
+}
+
+TEST(MduDiv, DivideByZeroRule) {
+    using namespace rv::core;
+
+    auto enc_dividend = encode_twos_i32(42);   // arbitrary nonzero
+    auto enc_divisor  = encode_twos_i32(0);    // zero
+
+    auto res = mdu_div(DivOp::Div, enc_dividend.bits, enc_divisor.bits);
+
+    // RISC-V: DIV x / 0 → quotient = -1 (0xFFFFFFFF), remainder = dividend.
+    EXPECT_EQ(bv_to_hex_string(res.q), "0xffffffff");
+    EXPECT_EQ(bv_to_hex_string(res.r), enc_dividend.hex); // same pattern as dividend
+    EXPECT_FALSE(res.overflow);
+
+    ASSERT_FALSE(res.trace.empty());
+    EXPECT_NE(res.trace[0].find("divide-by-zero"), std::string::npos);
+}
+
+TEST(MduDiv, IntMinDivMinusOneSpecialCase) {
+    using namespace rv::core;
+
+    auto enc_min = encode_twos_i32(-2147483648LL); // INT_MIN
+    auto enc_neg1 = encode_twos_i32(-1);
+
+    auto res = mdu_div(DivOp::Div, enc_min.bits, enc_neg1.bits);
+
+    // RISC-V: quotient = INT_MIN (0x80000000), remainder = 0, overflow = true.
+    EXPECT_EQ(bv_to_hex_string(res.q), "0x80000000");
+    EXPECT_EQ(bv_to_hex_string(res.r), "0x0");
+    EXPECT_TRUE(res.overflow);
+
+    ASSERT_FALSE(res.trace.empty());
+    EXPECT_NE(res.trace[0].find("INT_MIN / -1 special case"), std::string::npos);
+}

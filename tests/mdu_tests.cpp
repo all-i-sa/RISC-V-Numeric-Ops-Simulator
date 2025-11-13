@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "core/mdu.hpp"
 #include "core/bitvec.hpp"
+#include "core/twos.hpp"
 
 using namespace rv::core;
 
@@ -35,3 +36,25 @@ TEST(MduSmoke, DivSimpleCase) {
     // For now this will *not* be correct, but that's fine; we only assert the sizes.
     // We'll add real expectation tests once we implement the algorithms.
 }
+
+TEST(MduMul, ExampleFromSpec) {
+    using namespace rv::core;
+
+    // Use our own encode helper so we don't mess up the hex.
+    auto enc_a = encode_twos_i32(12345678);    // +12,345,678
+    auto enc_b = encode_twos_i32(-87654321);   // -87,654,321
+
+    Bits a = enc_a.bits;
+    Bits b = enc_b.bits;
+
+    auto res = mdu_mul(MulOp::Mul, a, b);
+
+    // From the project spec:
+    // MUL 12345678 * -87654321 → rd = 0xD91D0712 (low 32), overflow=1.
+    EXPECT_EQ(bv_to_hex_string(res.lo), "0xd91d0712");
+    EXPECT_TRUE(res.overflow);
+
+    // Optional sanity check: we should have 33 snapshots (step 0..32)
+    EXPECT_EQ(res.trace.size(), 33u);
+}
+

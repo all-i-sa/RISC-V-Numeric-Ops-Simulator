@@ -11,6 +11,7 @@ add_library(core_objs
         src/core/twos.cpp
         src/core/alu.cpp
         src/core/shifter.cpp
+        src/core/mdu.cpp
 )
 target_include_directories(core_objs PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_compile_options(core_objs PRIVATE -Wall -Wextra -Wpedantic)
@@ -33,6 +34,7 @@ add_executable(core_tests
         tests/bitvec_tests.cpp
         tests/twos_tests.cpp
         tests/alu_tests.cpp
+        tests/mdu_tests.cpp
 )
 target_link_libraries(core_tests PRIVATE core_objs GTest::gtest_main)
 include(GoogleTest)

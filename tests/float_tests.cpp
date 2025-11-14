@@ -78,3 +78,53 @@ TEST(FloatF32, Sub_2p25_Minus_1p5_Equals_0p75) {
     // Should go through the different-sign subtract path.
     EXPECT_EQ(res.trace.back(), "fadd_f32 different-sign subtract");
 }
+
+
+TEST(FloatF32, Mul_1p5_Times_2_Equals_3) {
+    using namespace rv::core;
+
+    // 1.5 → 0x3FC00000
+    // 2.0 → 0x40000000
+    // 3.0 → 0x40400000
+    Bits a = bv_from_hex_string("0x3fc00000");
+    Bits b = bv_from_hex_string("0x40000000");
+
+    auto res = fmul_f32(a, b);
+
+    EXPECT_EQ(bv_to_hex_string(res.bits), "0x40400000");
+    EXPECT_FALSE(res.flags.overflow);
+    EXPECT_FALSE(res.flags.underflow);
+    EXPECT_FALSE(res.flags.invalid);
+}
+
+TEST(FloatF32, Mul_1e38_Times_10_Overflow) {
+    using namespace rv::core;
+
+    // Hex patterns for float32:
+    // 1e38  ≈ 0x7E967699
+    // 10.0  → 0x41200000
+    Bits a = bv_from_hex_string("0x7e967699");
+    Bits b = bv_from_hex_string("0x41200000");
+
+    auto res = fmul_f32(a, b);
+
+    // Expect +∞ and overflow flag.
+    EXPECT_EQ(bv_to_hex_string(res.bits), "0x7f800000");
+    EXPECT_TRUE(res.flags.overflow);
+    EXPECT_FALSE(res.flags.invalid);
+}
+
+TEST(FloatF32, Mul_1eMinus38_Times_1eMinus2_Underflow) {
+    using namespace rv::core;
+
+    // Hex patterns:
+    // 1e-38 → 0x006CE3EE
+    // 1e-2  → 0x3C23D70A
+    Bits a = bv_from_hex_string("0x006ce3ee");
+    Bits b = bv_from_hex_string("0x3c23d70a");
+
+    auto res = fmul_f32(a, b);
+
+    EXPECT_TRUE(res.flags.underflow);
+    EXPECT_FALSE(res.flags.overflow);
+}

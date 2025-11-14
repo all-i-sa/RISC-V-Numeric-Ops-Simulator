@@ -34,3 +34,47 @@ TEST(FloatF32, ArithmeticStubsProduce32Bits) {
     EXPECT_FALSE(add_res.flags.underflow);
     EXPECT_FALSE(add_res.flags.invalid);
 }
+
+TEST(FloatF32, Add_1p5_Plus_2p25_Equals_3p75) {
+    using namespace rv::core;
+
+    // Known IEEE-754 single-precision patterns:
+    // 1.5   → 0x3FC00000
+    // 2.25  → 0x40100000
+    // 3.75  → 0x40700000
+    Bits a = bv_from_hex_string("0x3fc00000");
+    Bits b = bv_from_hex_string("0x40100000");
+
+    auto res = fadd_f32(a, b);
+
+    EXPECT_EQ(bv_to_hex_string(res.bits), "0x40700000");
+    EXPECT_FALSE(res.flags.overflow);
+    EXPECT_FALSE(res.flags.underflow);
+    EXPECT_FALSE(res.flags.invalid);
+
+    ASSERT_FALSE(res.trace.empty());
+    // Just sanity-check that we didn't go through the "different signs" unimplemented path.
+    EXPECT_EQ(res.trace.back(), "fadd_f32 normal same-sign add");
+}
+
+TEST(FloatF32, Sub_2p25_Minus_1p5_Equals_0p75) {
+    using namespace rv::core;
+
+    // Known patterns:
+    // 1.5   → 0x3FC00000
+    // 2.25  → 0x40100000
+    // 0.75  → 0x3F400000
+    Bits a = bv_from_hex_string("0x40100000"); // 2.25
+    Bits b = bv_from_hex_string("0x3fc00000"); // 1.5
+
+    auto res = fsub_f32(a, b);
+
+    EXPECT_EQ(bv_to_hex_string(res.bits), "0x3f400000");
+    EXPECT_FALSE(res.flags.overflow);
+    EXPECT_FALSE(res.flags.underflow);
+    EXPECT_FALSE(res.flags.invalid);
+
+    ASSERT_FALSE(res.trace.empty());
+    // Should go through the different-sign subtract path.
+    EXPECT_EQ(res.trace.back(), "fadd_f32 different-sign subtract");
+}

@@ -230,12 +230,110 @@ namespace rv::cpu {
             }
             break;
         }
+                // BRANCH: beq, bne (B-type)
+        case 0x63: { // BRANCH
+            // B-type immediate:
+            // imm[12] at bit 31
+            // imm[10:5] at bits 30:25
+            // imm[4:1] at bits 11:8
+            // imm[11] at bit 7
+            uint32_t imm_12   = (instr >> 31) & 0x1;
+            uint32_t imm_10_5 = (instr >> 25) & 0x3F;
+            uint32_t imm_4_1  = (instr >> 8) & 0xF;
+            uint32_t imm_11   = (instr >> 7) & 0x1;
 
+            uint32_t imm_u = (imm_12 << 12)
+                           | (imm_11 << 11)
+                           | (imm_10_5 << 5)
+                           | (imm_4_1 << 1);
+
+            int32_t offset = sign_extend_imm(imm_u, 13);
+
+            uint32_t val1 = read_reg(rs1);
+            uint32_t val2 = read_reg(rs2);
+
+            bool take = false;
+            switch (funct3) {
+                case 0x0: // BEQ
+                    take = (val1 == val2);
+                    break;
+                case 0x1: // BNE
+                    take = (val1 != val2);
+                    break;
+                default:
+                    // other branches (BLT/BGE/BLTU/BGEU) not implemented
+                    break;
+            }
+
+            if (take) {
+                next_pc = s.pc + static_cast<uint32_t>(offset);
+            }
+            break;
+        }
+        // JAL: jump and link (J-type)
+        case 0x6F: {
+            uint32_t pc0 = s.pc;
+
+            // J-type immediate layout:
+            // imm[20]   at bit 31
+            // imm[10:1] at bits 30:21
+            // imm[11]   at bit 20
+            // imm[19:12]at bits 19:12
+            uint32_t imm_20    = (instr >> 31) & 0x1;
+            uint32_t imm_10_1  = (instr >> 21) & 0x3FF;
+            uint32_t imm_11    = (instr >> 20) & 0x1;
+            uint32_t imm_19_12 = (instr >> 12) & 0xFF;
+
+            uint32_t imm_u = (imm_20 << 20)
+                           | (imm_19_12 << 12)
+                           | (imm_11 << 11)
+                           | (imm_10_1 << 1);
+
+            int32_t offset = sign_extend_imm(imm_u, 21);
+
+            // rd gets return address (pc + 4)
+            write_reg(rd, pc0 + 4);
+
+            // pc jumps to pc + offset
+            next_pc = pc0 + static_cast<uint32_t>(offset);
+            break;
+        }
+        // JALR: jump and link register (I-type)
+        case 0x67: {
+            uint32_t pc0 = s.pc;
+
+            // I-type immediate in bits 31:20
+            int32_t imm = sign_extend_imm(instr >> 20, 12);
+            uint32_t base = read_reg(rs1);
+
+            uint32_t target = base + static_cast<uint32_t>(imm);
+            target &= ~1u; // clear LSB
+
+            // rd gets return address (pc + 4)
+            write_reg(rd, pc0 + 4);
+
+            next_pc = target;
+            break;
+        }
+        // AUIPC: rd = pc + (imm20 << 12)
+        case 0x17: {
+            uint32_t pc0 = s.pc;
+            uint32_t imm20 = instr & 0xFFFFF000u; // bits 31:12 already in place
+
+            uint32_t offset = imm20; // already << 12
+            write_reg(rd, pc0 + offset);
+            break;
+        }
+        // LUI: rd = imm20 << 12
+        case 0x37: {
+            uint32_t imm20 = instr & 0xFFFFF000u; // bits 31:12 already in place
+            write_reg(rd, imm20);
+            break;
+        }
         default:
             // Other opcodes (branches, jumps, etc.) will be added later.
             break;
     }
-
     s.pc = next_pc;
 }
 

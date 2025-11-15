@@ -5,7 +5,7 @@ This repo has two main parts:
 1. **Numeric Operations**
 
    This part of the project works directly with bits instead of using symbols
-   like `+` and `-`.
+   like + and -.
 
    It can:
     - Turn regular numbers into 32-bit “computer form” and back

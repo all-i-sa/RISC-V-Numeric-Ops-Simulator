@@ -81,7 +81,8 @@ namespace rv::core {
         }
     }
 
-/* -------------------- PURE bit-level helpers (width-fixed to 32) -------------------- */
+/* -------------------- helpers to make sure we are working with 32 bits -------------------- */
+
 
     /***** ensure_i32_width *****
      *   Makes sure a bit vector is treated as a 32-bit signed value.

@@ -80,16 +80,16 @@ namespace rv::core {
      ******************************/
     std::string bv_to_pretty_bin(const Bits& b, std::size_t group = 0, char sep = '_');
 
-    /***** zero_extend *****
-     *   Extends a bit vector to a given width by adding zeros
-     *   on the MSB side.
-     ******************************
-     * Inputs:
-     *   b      - original bit vector
-     *   width  - needed width
-     * Returns:
-     *   Bits - bit vector of length width
-     ******************************/
+   /***** zero_extend *****
+    *   Extends a bit vector to a given width by adding zeros
+    *   on the MSB side.
+    ******************************
+    * Inputs:
+    *   b      - original bit vector
+    *   width  - needed width
+    * Returns:
+    *   Bits - bit vector of length width
+    ******************************/
     Bits zero_extend(const Bits& b, std::size_t width);
 
     /***** sign_extend *****

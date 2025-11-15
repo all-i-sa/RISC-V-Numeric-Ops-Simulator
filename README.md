@@ -68,3 +68,34 @@ To run only the CPU tests:
 ```bash 
 ./core_tests --gtest_filter=Cpu*
 ```
+
+---
+
+## Files and Folders
+
+The main folders and files in this repo:
+
+```text
+src/
+  core/
+    bitvec.hpp / bitvec.cpp      // bit helpers
+    twos.hpp   / twos.cpp        // two's complement helpers
+    alu.hpp    / alu.cpp         // integer add, sub, and flags
+    shifter.hpp/ shifter.cpp     // shifts
+    mdu.hpp    / mdu.cpp         // multiply and divide
+    f32.hpp    / f32.cpp         // float32 bits and math
+    rv32_cpu.hpp / rv32_cpu.cpp  // RISC-V 32 CPU
+
+tests/
+  bitvec_tests.cpp
+  twos_tests.cpp
+  alu_tests.cpp
+  shifter_tests.cpp
+  mdu_tests.cpp
+  float_tests.cpp
+  cpu_tests.cpp
+
+CMakeLists.txt        // build setup
+README.md             // this file
+AI_USAGE.md           // ow I used AI
+ai_report.json        // AI-tagged lines

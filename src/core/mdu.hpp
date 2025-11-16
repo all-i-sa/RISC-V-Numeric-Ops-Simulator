@@ -7,40 +7,89 @@
 
 namespace rv::core {
 
-    // Multiply operation selector (for future extension)
+    /***** MulOp *****
+     *   Different types of multiplication
+     ******************************
+     *   Mul   - normal multiply low 32 bits
+     *   Mulh  - signed * signed high 32 bits
+     *   Mulhu - unsigned * unsigned high 32 bits
+     *   Mulhsu- signed * unsigned high 32 bits
+     ******************************/
     enum class MulOp {
-        Mul,    // low 32 bits (required)
-        Mulh,   // signed x signed high 32 (optional)
-        Mulhu,  // unsigned x unsigned high 32 (optional)
-        Mulhsu  // signed x unsigned high 32 (optional)
+        Mul,
+        Mulh,
+        Mulhu,
+        Mulhsu
     };
 
-    // Divide/remainder operation selector (for future extension)
+    /***** DivOp *****
+     *   Different types of diviision
+     *
+     * Values:
+     *   Div  - signed division
+     *   Divu - unsigned division
+     *   Rem  - signed remainder
+     *   Remu - unsigned remainder
+     ******************************/
     enum class DivOp {
-        Div,   // signed division (required)
-        Divu,  // unsigned division (optional)
-        Rem,   // signed remainder (optional)
-        Remu   // unsigned remainder (optional)
+        Div,
+        Divu,
+        Rem,
+        Remu
     };
 
+    /***** MulResult *****
+     *   The result of a multiply
+     *
+     *   lo       - low 32 bits of the 64-bit product
+     *   hi       - high 32 bits
+     *   overflow - true if the full 64-bit product does not fit in signed 32 bits
+     *   trace
+     ******************************/
     struct MulResult {
-        Bits                    lo;       // low 32 bits
-        Bits                    hi;       // high 32 bits (for *H variants; zero if unused)
-        bool                    overflow; // true if 64-bit product doesn't fit signed 32
-        std::vector<std::string> trace;   // per-step textual trace (optional for now)
+        Bits                     lo;
+        Bits                     hi;
+        bool                     overflow;
+        std::vector<std::string> trace;
     };
 
+    /***** DivResult *****
+     *   The result of a divide and remainder
+     *
+     *   q        - quotient (32 bits)
+     *   r        - remainder (32 bits)
+     *   overflow
+     *   trace
+     ******************************/
     struct DivResult {
-        Bits                    q;        // quotient (32 bits)
-        Bits                    r;        // remainder (32 bits)
-        bool                    overflow; // for INT_MIN / -1 edge in signed DIV
-        std::vector<std::string> trace;   // per-step textual trace
+        Bits                     q;
+        Bits                     r;
+        bool                     overflow;
+        std::vector<std::string> trace;
     };
 
-    // Multiply unit entry point (we’ll implement shift-add later)
+    /***** mdu_mul *****
+     *   Multiplies two 32-bit values given as bit vectors
+     ******************************
+     * Inputs:
+     *   op  - which multiply mode to use (Mul, Mulh, ...)
+     *   rs1 - first operand
+     *   rs2 - second operand
+     * Returns:
+     *   MulResult - result
+     ******************************/
     MulResult mdu_mul(MulOp op, const Bits& rs1, const Bits& rs2);
 
-    // Divide/remainder unit entry point (we’ll implement restoring/non-restoring later)
+    /***** mdu_div *****
+     *   Divides one 32-bit value
+     ******************************
+     * Inputs:
+     *   op  - which divide mode to use (Div, Divu, ...)
+     *   rs1 - dividend bits
+     *   rs2 - divisor bits
+     * Returns:
+     *   DivResult - result
+     ******************************/
     DivResult mdu_div(DivOp op, const Bits& rs1, const Bits& rs2);
 
 } // namespace rv::core

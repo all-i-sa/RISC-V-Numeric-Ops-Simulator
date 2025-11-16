@@ -9,7 +9,7 @@ namespace rv::cpu {
     /***** CpuState *****
      *   The snapshot of the CPU at a moment in time
      *
-     *   regs[32] - 32 general-purpose registers
+     *   regs[32] - 32 general purpose registers
      *   pc       - program counter
      *   mem      - memory
      *

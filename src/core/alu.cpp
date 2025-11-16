@@ -145,5 +145,4 @@ namespace rv::core {
         AluResult res{ result, flags };
         return res;
     }
-
 } // namespace rv::core

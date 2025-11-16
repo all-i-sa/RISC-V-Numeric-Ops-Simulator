@@ -44,7 +44,7 @@ namespace rv::core {
      * Inputs:
      *   b      - original bit vector
      *   width  - minimum number of bits needed
-     *   fill   - bit value (0 or 1 depenging on pos or neg) to pad with on the MSB side
+     *   fill   - bit value (0 or 1 depending on pos or neg) to pad with on the MSB side
      * Returns:
      *   Bits - a bit vector that with the correct width
      ******************************/

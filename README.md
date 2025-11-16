@@ -37,6 +37,31 @@ Both parts are written in C++ and tested with GoogleTest.
 
 ---
 
+## Testing
+GoogleTest to write  checks for each main part of the project
+
+Here’s what I test:
+
+- **Bit helpers **  
+  Test turning hex strings into bits and back, pretty-printing bits,  
+  and making sure two’s-complement encode/decode works for edge values
+
+- **ALU and shifter**  
+  Basic add and subtract cases.Check that the 
+  zero flag is set when the result is zero. Shifter tests left,  
+  logical right, and arithmetic right shifts.
+
+- **Multiply/Divide unit **  
+  A few special cases like `12345678 * -87654321`, divide by 0, and the special RISC-V  
+  case `INT_MIN / -1`. Make sure the flags are correct.
+
+- **Float32 helpers f32**  
+  Unpack/pack a 32 bit float.Testvalues like `1.5`, `2.25`, `3.75`, and  
+ multiply/add/sub cases. Test overflows.
+
+- **CPU simulator **  
+  Test loading mini programs into memory. Check reg values.
+
 ## How to Build and Run Tests
 
 ### Requirements

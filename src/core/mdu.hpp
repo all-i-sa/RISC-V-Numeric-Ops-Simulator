@@ -23,7 +23,7 @@ namespace rv::core {
     };
 
     /***** DivOp *****
-     *   Different types of diviision
+     *   Different types of division
      *
      * Values:
      *   Div  - signed division

@@ -339,6 +339,7 @@ namespace {
         int mag_cmp = compare_unsigned(sig_big_local, sig_small_local);
 
         Bit result_sign = sign_big;
+
         if (mag_cmp < 0) {
             Bits tmp = sig_big_local;
             sig_big_local = sig_small_local;

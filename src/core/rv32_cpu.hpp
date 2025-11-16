@@ -13,8 +13,7 @@ namespace rv::cpu {
      *   pc       - program counter
      *   mem      - memory
      *
-     * Constructor:
-     *   CpuState(mem_size):
+     * Constructor: CpuState(mem_size)
      *     - Creates a CPU with mem_size bytes of memory
      *     - Memory starts out zero-initialized
      ******************************/

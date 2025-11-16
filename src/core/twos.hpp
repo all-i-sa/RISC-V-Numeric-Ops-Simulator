@@ -43,9 +43,8 @@ namespace rv::core {
 
      /***** SignMag32 *****
     *   Struct holding a sign bit and mag bits
-    *
-    *   sign - 0 or 1
-    *   mag  - abs value
+    *    sign - 0 or 1
+    *    mag  - abs value
     ******************************/
     struct SignMag32 {
      Bit  sign;  // 0 or 1

@@ -35,7 +35,7 @@ namespace rv::core {
     };
 
     /***** FpuResult *****
-     *   The result of a float32 operatioon
+     *   The result of a float32 operation
      *
      *   bits  - 32-bit float pattern IEEE-754
      *   flags - info/alerts

@@ -17,7 +17,6 @@ namespace rv::core {
         assert(value.size() == 32);
 
         uint32_t s = shamt & 31u;
-
         Bits out(32, 0);
 
         switch (op) {
@@ -56,8 +55,6 @@ namespace rv::core {
                 break;
             }
         }
-
         return out;
     }
-
 } // namespace rv::core

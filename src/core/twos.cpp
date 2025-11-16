@@ -83,7 +83,6 @@ namespace rv::core {
 
 /* -------------------- helpers to make sure we are working with 32 bits -------------------- */
 
-
     /***** ensure_i32_width *****
      *   Makes sure a bit vector is treated as a 32-bit signed value.
      ******************************
@@ -142,29 +141,27 @@ namespace rv::core {
     }
 
     EncodeI32Result encode_twos_i32(int64_t value) {
-    EncodeI32Result res{};
+        EncodeI32Result res{};
 
-    // Signed 32-bit bounds
-    const int64_t MIN_I32 = -2147483648LL; // -2^31
-    const int64_t MAX_I32 =  2147483647LL; //  2^31 - 1
+        // Signed 32-bit bounds
+        const int64_t MIN_I32 = -2147483648LL; // -2^31
+        const int64_t MAX_I32 =  2147483647LL; //  2^31 - 1
 
-    // Overflow flag: true if value is outside signed 32-bit range
-    res.overflow = (value < MIN_I32) || (value > MAX_I32);
+        // Overflow flag: true if value is outside signed 32-bit range
+        res.overflow = (value < MIN_I32) || (value > MAX_I32);
 
-    int32_t narrowed = static_cast<int32_t>(value);
+        int32_t narrowed = static_cast<int32_t>(value);
 
-    // Build a 32-bit 2's comp bit vector
-    res.bits = encode_i32_TEMP_host(narrowed);
+        // Build a 32-bit 2's comp bit vector
+        res.bits = encode_i32_TEMP_host(narrowed);
 
-    // Pretty hex str
-    res.hex = bv_to_hex_string(res.bits);
+        // Pretty hex str
+        res.hex = bv_to_hex_string(res.bits);
 
-    return res;
-}
-
+        return res;
+    }
     int64_t decode_twos_i32(const Bits& b32) {
-    return decode_i32_to_host(b32);
-}
-
+        return decode_i32_to_host(b32);
+    }
 } // namespace rv::core
 

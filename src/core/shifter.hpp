@@ -7,9 +7,9 @@ namespace rv::core {
 
     /***** ShiftOp *****
      *   A small list of shift types
-     *   Sll - shift left logical
-     *   Srl - shift right logical
-     *   Sra - shift right arithmetic
+     *      Sll - shift left logical
+     *      Srl - shift right logical
+     *      Sra - shift right arithmetic
      ****************************/
     enum class ShiftOp {
         Sll,

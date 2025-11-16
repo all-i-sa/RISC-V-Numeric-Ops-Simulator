@@ -70,6 +70,7 @@ namespace rv::core {
 
             AddResult add_res = add_fixed_width(inv, one, width);
             (void)add_res;
+
             return add_res.sum;
         }
 
@@ -212,10 +213,8 @@ namespace rv::core {
                 } else {
                     Q[static_cast<std::size_t>(i)] = 0;
                 }
-
                 snapshot(31 - i);
             }
-
             UnsignedDivResult res{ Q, R, trace };
             return res;
         }
@@ -407,5 +406,4 @@ namespace rv::core {
         };
         return res;
     }
-
 } // namespace rv::core

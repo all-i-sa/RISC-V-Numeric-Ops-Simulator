@@ -122,5 +122,42 @@ tests/
 
 CMakeLists.txt        // build setup
 README.md             // this file
-AI_USAGE.md           // ow I used AI
-ai_report.json        // AI-tagged lines
+```
+
+## AI Usage
+
+I used ChatGPT to assist me with this project. It was my tutor and debugging agent 
+through the project.
+
+### What I used it for
+
+- **Tutoring and questions**
+  - Arithmetic: Helped refresh my 2's comp understanding, bit multiplication/division, and float. Tutored me through my struggles.
+  - Logic Gates: I needed a lot of practice to fully understand the gates and not get them mixed up. ChatGPT answered my questions and provided 
+  me with examples to help me practice.
+  - Shifts and Overflow: Overflow was quite a confusing topic for me, so I needed some further explanation and walk-throughs to help me understand.
+  - Data path and memory: This was also interesting and complicated at the same time. AI helped me with all my questions that popped up while 
+  I was trying to better understand it in order to code.
+  - All in all, it helped explain things I did not fully understood through lecture and
+  reading.
+  - It also helped me think about how C++ can represent a RISC-V CPU
+
+- **Debugging**
+  - AI helped me figure out failed tests and helped me come up with tests. This is my first time using google tests.
+  - Fixing bugs in almost every file
+  - It also provided me background information why certain coding is better practice. 
+  - AI helped me learn more about C++ during this project.
+
+- **Testing and skeleton**
+  - Learned about GoogleTest cases for:
+    - ALU
+    - Bit helpers
+    - MDU 
+    - Float32
+    - CPU
+  - AI helped me make better naming conventions
+
+- **Comments and README**
+  - AI helped me articulate function descriptions simply
+
+

@@ -24,7 +24,7 @@ namespace rv::core {
      *   status flags
      *   N - Negative: 1 if the result looks negative in 2's comp
      *   Z - Zero:     1 if the result is exactly 0.
-     *   C - Carry:    1 if there was a carry out
+     *   C - Carry:    1 if there is a carry out
      *   V - Overflow: 1 if the signed result doesn't fit in 32 bits.
      ******************************/
     struct AluFlags {

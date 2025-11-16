@@ -29,7 +29,7 @@ namespace rv::core {
      ******************************
      * Inputs:
      *   b        - bit vector to convert
-     *   prefix0x - if true, prefix the string with "0x"
+     *   prefix0x - if true, prefix the string with 0x
      * Returns:
      *   std::string - a hex string
      ******************************/

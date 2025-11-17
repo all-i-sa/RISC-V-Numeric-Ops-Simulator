@@ -75,6 +75,7 @@ TEST(FloatF32, Sub_2p25_Minus_1p5_Equals_0p75) {
 
 /***** Test: 1.5 * 2.0 = 3.0 *****
  *********************************/
+// AI-BEGIN: design test case
 TEST(FloatF32, Mul_1p5_Times_2_Equals_3) {
     // 1.5 * 2.0 = 3.0
     Bits a = bv_from_hex_string("0x3fc00000");
@@ -87,6 +88,7 @@ TEST(FloatF32, Mul_1p5_Times_2_Equals_3) {
     EXPECT_FALSE(res.flags.underflow);
     EXPECT_FALSE(res.flags.invalid);
 }
+// AI-END
 
 /***** Test: overflow *****
  **************************/
@@ -103,6 +105,7 @@ TEST(FloatF32, Mul_1e38_Times_10_Overflow) {
 
 /***** Test: underflow *****
  ***************************/
+// AI-BEGIN: Verify test case
 TEST(FloatF32, Mul_1eMinus38_Times_1eMinus2_Underflow) {
     Bits a = bv_from_hex_string("0x006ce3ee"); // ~1e-38
     Bits b = bv_from_hex_string("0x3c23d70a"); // 1e-2
@@ -112,3 +115,4 @@ TEST(FloatF32, Mul_1eMinus38_Times_1eMinus2_Underflow) {
     EXPECT_TRUE(res.flags.underflow);
     EXPECT_FALSE(res.flags.overflow);
 }
+// AI-END

@@ -37,6 +37,7 @@ TEST(AluAddSub, AddPosOverflow) {
  *   N = 0
  *   Z = 0
  ******************************/
+// AI-BEGIN: TEACH & QA TEST CASE
 TEST(AluAddSub, SubNegOverflow) {
     Bits a = bv_from_hex_string("0x80000000");
     Bits b = bv_from_hex_string("0x1");
@@ -49,7 +50,7 @@ TEST(AluAddSub, SubNegOverflow) {
     EXPECT_EQ(res.flags.N, 0);
     EXPECT_EQ(res.flags.Z, 0);
 }
-
+// AI-END
 /***** Test: AddMinusOnePlusMinusOne *****
  * Case:
  *   -1 + -1

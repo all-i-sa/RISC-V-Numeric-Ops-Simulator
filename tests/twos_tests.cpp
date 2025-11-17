@@ -21,7 +21,7 @@ TEST(TwosI32, BoundaryCases) {
     check_i32(int32_t(0x80000000u), "0x80000000");
     check_i32(-1,             "0xffffffff");
 }
-
+// AI-BEGIN: Design test case
 /***** pretty binary snapshot *****
  **********************************/
 TEST(TwosI32, PrettySnapshot) {
@@ -31,9 +31,10 @@ TEST(TwosI32, PrettySnapshot) {
         "0001_0010_0011_0100_1010_1011_1100_1101"
     );
 }
-
+// AI-END
 /***** ncode/decode with overflow flag *****
  *******************************************/
+// AI-BEGIN: Design test case
 TEST(TwosEncodeDecode, BoundaryValues) {
     struct Case {
         int64_t     value;
@@ -68,3 +69,4 @@ TEST(TwosEncodeDecode, BoundaryValues) {
         }
     }
 }
+// AI-END

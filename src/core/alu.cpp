@@ -94,6 +94,7 @@ namespace rv::core {
      * Output:
      *   AluResult
      **************************/
+    // AI-BEGIN: TUTOR, TRAIN ON CODE, AND QA
     AluResult alu_execute(const Bits& a, const Bits& b, AluOp op) {
         Bits a32 = zero_extend(a, 32);
         Bits b32 = zero_extend(b, 32);
@@ -145,4 +146,5 @@ namespace rv::core {
         AluResult res{ result, flags };
         return res;
     }
+    // AI-END
 } // namespace rv::core

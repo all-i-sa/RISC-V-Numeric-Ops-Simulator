@@ -42,7 +42,7 @@ GoogleTest to write  checks for each main part of the project
 
 Here’s what I test:
 
-- **Bit helpers **  
+- **Bit helpers**  
   Test turning hex strings into bits and back, pretty-printing bits,  
   and making sure two’s-complement encode/decode works for edge values
 
@@ -51,7 +51,7 @@ Here’s what I test:
   zero flag is set when the result is zero. Shifter tests left,  
   logical right, and arithmetic right shifts.
 
-- **Multiply/Divide unit **  
+- **Multiply/Divide unit**  
   A few special cases like `12345678 * -87654321`, divide by 0, and the special RISC-V  
   case `INT_MIN / -1`. Make sure the flags are correct.
 
@@ -59,7 +59,7 @@ Here’s what I test:
   Unpack/pack a 32 bit float.Testvalues like `1.5`, `2.25`, `3.75`, and  
  multiply/add/sub cases. Test overflows.
 
-- **CPU simulator **  
+- **CPU simulator**  
   Test loading mini programs into memory. Check reg values.
 
 ## How to Build and Run Tests

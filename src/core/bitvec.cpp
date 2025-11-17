@@ -98,6 +98,7 @@ namespace rv::core {
      * Returns:
      *   std::string - hex string
      ******************************/
+    // AI-BEGIN: This part was confusing to me, AI helped with logic, code, and understanding
     std::string bv_to_hex_string(const Bits& b_in, bool prefix0x) {
         Bits b = b_in;
         if (b.empty()) b = Bits{0};
@@ -126,7 +127,7 @@ namespace rv::core {
 
         return prefix0x ? std::string("0x") + s : s;
     }
-
+    // AI-END
     /***** bv_pad_left *****
      *   Make sure a bit vector has the right width by padding on the MSB side
      *   - If the vector is already at least width bits, it is truncated

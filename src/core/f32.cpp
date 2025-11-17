@@ -339,7 +339,7 @@ namespace {
         int mag_cmp = compare_unsigned(sig_big_local, sig_small_local);
 
         Bit result_sign = sign_big;
-
+        // AI-BEGIN: Logic help
         if (mag_cmp < 0) {
             Bits tmp = sig_big_local;
             sig_big_local = sig_small_local;
@@ -355,7 +355,7 @@ namespace {
             out.trace.push_back("fadd_f32 different-sign: exact zero");
             return out;
         }
-
+        // AI-END
         Bit borrow = 0;
         Bits sig_diff = subtract_unsigned(sig_big_local, sig_small_local, 24, borrow);
 
@@ -437,7 +437,7 @@ namespace {
         F32Fields fb = unpack_f32(b32);
 
         Bit sign_res = fa.sign ^ fb.sign;
-
+        // AI-BEGIN: Seriously fix code
         bool expA_zero = bits_all_zero(fa.exponent);
         bool expB_zero = bits_all_zero(fb.exponent);
         bool expA_ones = bits_all_ones(fa.exponent);
@@ -452,7 +452,7 @@ namespace {
         bool b_is_inf  = expB_ones && fracB_zero;
         bool a_is_nan  = expA_ones && !fracA_zero;
         bool b_is_nan  = expB_ones && !fracB_zero;
-
+        // AI-END
         Bits nan_bits = bv_from_hex_string("0x7fc00000");
 
         if (a_is_nan || b_is_nan) {
@@ -571,7 +571,7 @@ namespace {
             multiplicand[i] = sigA[i];
         }
         Bits multiplier = sigB;
-
+        // AI-BEGIN: logic help
         for (std::size_t step = 0; step < 24; ++step) {
             if (multiplier[0] == 1) {
                 Bit carry_p = 0;
@@ -581,12 +581,12 @@ namespace {
             shift_right_logical(multiplier, 24);
             shift_left_logical(multiplicand, 48);
         }
-
+        // AI-END
         out.trace.push_back("fmul_f32: after significand multiply");
 
         bool high = (prod[47] == 1);
         Bits exp_res = exp_tmp;
-
+        // AI-BEGIN
         if (high) {
             Bits one(8, 0);
             one[0] = 1;
@@ -615,7 +615,7 @@ namespace {
                 sig_res[i] = prod[idx];
             }
         }
-
+        // AI-END
         bool exp_all_zero = bits_all_zero(exp_res);
         bool exp_all_ones = bits_all_ones(exp_res);
 

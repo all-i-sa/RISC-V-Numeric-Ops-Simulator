@@ -196,7 +196,7 @@ namespace rv::core {
                                   " Q=" + bv_to_hex_string(Q);
                 trace.push_back(msg);
             };
-
+            // AI-BEGIN: LOGIC & CODE HELP
             for (int i = 31; i >= 0; --i) {
                 // Shift R left by 1.
                 for (int j = 31; j >= 1; --j) {
@@ -217,6 +217,7 @@ namespace rv::core {
             }
             UnsignedDivResult res{ Q, R, trace };
             return res;
+            // AI-END
         }
     } // anonymous namespace
 

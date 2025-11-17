@@ -129,6 +129,7 @@ TEST(CpuMem, LwSwSimple) {
 
 /***** branches test *****
  *************************/
+// AI-BEGIN: Tutor/teach test case
 TEST(CpuBranch, BeqBneBasic) {
     CpuState s(1024);
     reset(s);
@@ -153,6 +154,7 @@ TEST(CpuBranch, BeqBneBasic) {
     EXPECT_EQ(s.regs[5], 7u);  // from addi at 0x18
     EXPECT_EQ(s.regs[0], 0u);  // x0 hard-wired to 0
 }
+// AI-END
 
 /***** JAL test *****
  ********************/
@@ -205,6 +207,7 @@ TEST(CpuJump, JalrBasic) {
 
 /***** LUI *****
  ***************/
+// AI-BEGIN: TEACH & QA TEST CASE
 TEST(CpuUType, LuiBasic) {
     CpuState s(1024);
     reset(s);
@@ -219,6 +222,7 @@ TEST(CpuUType, LuiBasic) {
     EXPECT_EQ(s.regs[1], 0x000AB000u);
     EXPECT_EQ(s.regs[0], 0u);
 }
+// AI-END
 
 /***** AUIPC *****
  *****************/

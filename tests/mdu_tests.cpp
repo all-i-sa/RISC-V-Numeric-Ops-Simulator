@@ -86,6 +86,7 @@ TEST(MduDiv, DivideByZeroRule) {
 
 /***** Test: INT_MIN / -1 special case *****
  *******************************************/
+// AI-BEGIN: design test case
 TEST(MduDiv, IntMinDivMinusOneSpecialCase) {
     auto enc_min  = encode_twos_i32(-2147483648LL); // INT_MIN
     auto enc_neg1 = encode_twos_i32(-1);
@@ -99,3 +100,4 @@ TEST(MduDiv, IntMinDivMinusOneSpecialCase) {
     ASSERT_FALSE(res.trace.empty());
     EXPECT_NE(res.trace[0].find("INT_MIN / -1 special case"), std::string::npos);
 }
+// AI-END

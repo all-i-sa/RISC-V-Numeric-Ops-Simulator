@@ -127,7 +127,10 @@ README.md             // this file
 ## AI Usage
 
 I used ChatGPT to assist me with this project. It was my tutor and debugging agent 
-through the project.
+through the project. I included a json file to read AI markers.  
+Unfortunately, this json cannot count the AI support I received with tutoring, 
+Q&A, quality check, and overall support with subject 
+understanding. 
 
 ### What I used it for
 
